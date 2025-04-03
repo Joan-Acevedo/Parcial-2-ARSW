@@ -25,6 +25,8 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import edu.eci.arsw.myrestaurant.beans.impl.BasicBillCalculator;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +42,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/orders")
 public class OrdersAPIController {
 
-    @Autowired
-    RestaurantOrderServices restaurantOrSer;
+    RestaurantOrderServicesStub restaurantOrSer = new RestaurantOrderServicesStub();
 
-    @GetMapping(value = "application/json")
+    @GetMapping
     public ResponseEntity<?> orders (){
         try{
             JSONArray jsonArray = new JSONArray();
             for(Integer id: restaurantOrSer.getTablesWithOrders()){
                 JSONObject jsonObject = new JSONObject(restaurantOrSer.getTableOrder(id));
+                restaurantOrSer.setBillCalculator(new BasicBillCalculator());
                 jsonObject.put("Total de la orden", restaurantOrSer.calculateTableBill(id));
                 jsonArray.put(jsonObject);
             }
