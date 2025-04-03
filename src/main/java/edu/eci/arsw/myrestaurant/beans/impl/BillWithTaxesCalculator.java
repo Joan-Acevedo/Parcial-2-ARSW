@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+//@Service  // <- Documentamos para que en la inyeccion de dependecias no ocurran errores por tener 2 @Service
 public class BillWithTaxesCalculator implements BillCalculator {
 
 
